@@ -11,5 +11,5 @@ public record Account(
         boolean enabled,
         OffsetDateTime createdAt,
         OffsetDateTime updatedAt,
-        Set<Role> rol
+        Set<Role> roles
 ) {}
