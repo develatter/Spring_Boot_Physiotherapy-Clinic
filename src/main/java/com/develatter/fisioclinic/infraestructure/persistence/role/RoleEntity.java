@@ -4,13 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "role")
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class RoleEntity {
     @Id
+    @Column(length = 32)
     private String code;
 
     @Column(nullable = false)

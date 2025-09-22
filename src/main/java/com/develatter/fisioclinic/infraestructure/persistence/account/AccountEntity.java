@@ -2,7 +2,7 @@ package com.develatter.fisioclinic.infraestructure.persistence.account;
 
 import com.develatter.fisioclinic.infraestructure.persistence.role.RoleEntity;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -10,16 +10,20 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "account")
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, columnDefinition = "citext")
     private String email;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(name = "password_hash", nullable = false, columnDefinition = "text")
     private String passwordHash;
 
     @Column(nullable = false)

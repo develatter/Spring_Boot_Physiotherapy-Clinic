@@ -1,4 +1,5 @@
 create extension if not exists citext;
+-- drop database
 
 CREATE TABLE IF NOT EXISTS account
 (
@@ -41,7 +42,7 @@ CREATE TABLE IF NOT EXISTS therapist
 (
     id             uuid PRIMARY KEY,
     account_id     uuid UNIQUE REFERENCES account (id) ON DELETE CASCADE,
-    license_number varchar(100) NOT NULL,
+    license_number varchar(100) UNIQUE NOT NULL,
     first_name     varchar(255) NOT NULL,
     last_name      varchar(255) NOT NULL,
     active         boolean      NOT NULL default true
