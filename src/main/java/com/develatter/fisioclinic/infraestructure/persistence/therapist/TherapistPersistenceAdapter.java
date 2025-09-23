@@ -1,10 +1,13 @@
 package com.develatter.fisioclinic.infraestructure.persistence.therapist;
 
-import com.develatter.fisioclinic.application.port.out.CreateTherapistPort;
+import com.develatter.fisioclinic.application.port.out.create.CreateTherapistPort;
+import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.domain.model.Therapist;
 import com.develatter.fisioclinic.infraestructure.persistence.account.AccountEntity;
 import com.develatter.fisioclinic.domain.model.Account;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 public class TherapistPersistenceAdapter implements CreateTherapistPort {
@@ -35,8 +38,15 @@ public class TherapistPersistenceAdapter implements CreateTherapistPort {
     private Therapist toDomain(TherapistEntity entity) {
         return new Therapist(
                 entity.getId(),
-                new Account(entity.getAccount().getId(), null, null, false, null, null, null),
-                entity.getLicenseNumber(),
+                new Account(
+                        entity.getAccount().getId(),
+                        entity.getAccount().getEmail(),
+                        entity.getAccount().getPasswordHash(),
+                        entity.getAccount().isEnabled(),
+                        entity.getAccount().getCreatedAt(),
+                        entity.getAccount().getUpdatedAt(),
+                        Set.of(Role.THERAPIST)
+                ),entity.getLicenseNumber(),
                 entity.getFirstName(),
                 entity.getLastName(),
                 entity.isActive()

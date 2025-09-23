@@ -1,17 +1,13 @@
 package com.develatter.fisioclinic.infraestructure.controller;
 
 import com.develatter.fisioclinic.application.service.AccountService;
-import com.develatter.fisioclinic.infraestructure.controller.dto.CreateAccountRequest;
-import com.develatter.fisioclinic.infraestructure.controller.dto.CreateAccountResponse;
-import com.develatter.fisioclinic.infraestructure.controller.dto.CreateAdminAccountRequest;
-import com.develatter.fisioclinic.infraestructure.controller.dto.CreatePatientAccountRequest;
-import com.develatter.fisioclinic.infraestructure.controller.dto.CreateTherapistAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.response.CreateAccountResponse;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreateAdminAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreatePatientAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreateTherapistAccountRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/accounts")
 @RestController
@@ -46,4 +42,5 @@ public class AccountController {
         CreateAccountResponse response = accountService.createTherapistAccount(request);
         return ResponseEntity.ok(response);
     }
+
 }

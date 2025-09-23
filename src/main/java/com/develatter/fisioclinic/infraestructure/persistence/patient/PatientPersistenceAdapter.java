@@ -1,13 +1,22 @@
 package com.develatter.fisioclinic.infraestructure.persistence.patient;
 
-import com.develatter.fisioclinic.application.port.out.CreatePatientPort;
+import com.develatter.fisioclinic.application.port.out.create.CreatePatientPort;
+import com.develatter.fisioclinic.application.port.out.read.LoadAllPatientsPort;
+import com.develatter.fisioclinic.application.port.out.read.LoadPatientPort;
 import com.develatter.fisioclinic.domain.model.Patient;
+import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.infraestructure.persistence.account.AccountEntity;
 import com.develatter.fisioclinic.domain.model.Account;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
 @Component
-public class PatientPersistenceAdapter implements CreatePatientPort {
+public class PatientPersistenceAdapter implements CreatePatientPort, LoadPatientPort, LoadAllPatientsPort {
     private final SpringDataPatientRepository patientRepository;
 
     public PatientPersistenceAdapter(SpringDataPatientRepository patientRepository) {
@@ -19,6 +28,31 @@ public class PatientPersistenceAdapter implements CreatePatientPort {
         PatientEntity entity = toEntity(patient);
         PatientEntity saved = patientRepository.save(entity);
         return toDomain(saved);
+    }
+
+    @Override
+    public List<Patient> findAllPatients() {
+        return patientRepository.findAll()
+                .stream()
+                .map(this::toDomain)
+                .toList();
+    }
+
+    @Override
+    public boolean existsById(UUID patientId) {
+        return patientRepository
+                .findById(patientId)
+                .isPresent();
+    }
+
+    @Override
+    public Optional<Patient> findById(UUID patientId) {
+        return patientRepository.findById(patientId).map(this::toDomain);
+    }
+
+    @Override
+    public Optional<Patient> findByAccountId(UUID accountId) {
+        return patientRepository.findByAccountId(accountId).map(this::toDomain);
     }
 
     private PatientEntity toEntity(Patient patient) {
@@ -36,7 +70,15 @@ public class PatientPersistenceAdapter implements CreatePatientPort {
     private Patient toDomain(PatientEntity entity) {
         return new Patient(
                 entity.getId(),
-                new Account(entity.getAccount().getId(), null, null, false, null, null, null),
+                new Account(
+                        entity.getAccount().getId(),
+                        entity.getAccount().getEmail(),
+                        entity.getAccount().getPasswordHash(),
+                        entity.getAccount().isEnabled(),
+                        entity.getAccount().getCreatedAt(),
+                        entity.getAccount().getUpdatedAt(),
+                        Set.of(Role.PATIENT)
+                ),
                 entity.getFirstName(),
                 entity.getLastName(),
                 entity.getBirthDate(),
@@ -45,4 +87,3 @@ public class PatientPersistenceAdapter implements CreatePatientPort {
         );
     }
 }
-

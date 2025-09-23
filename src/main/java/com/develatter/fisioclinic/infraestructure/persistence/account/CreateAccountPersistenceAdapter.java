@@ -1,6 +1,6 @@
 package com.develatter.fisioclinic.infraestructure.persistence.account;
 
-import com.develatter.fisioclinic.application.port.out.CreateAccountPort;
+import com.develatter.fisioclinic.application.port.out.create.CreateAccountPort;
 import com.develatter.fisioclinic.domain.model.Account;
 import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.infraestructure.persistence.role.RoleEntity;

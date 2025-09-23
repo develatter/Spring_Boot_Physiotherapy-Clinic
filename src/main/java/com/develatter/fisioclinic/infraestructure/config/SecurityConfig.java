@@ -14,11 +14,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/accounts/create-admin", "/accounts/create-patient", "/accounts/create-therapist")
-                        .permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll() //TODO: Securize later
                 );
         return http.build();
     }
 }
-

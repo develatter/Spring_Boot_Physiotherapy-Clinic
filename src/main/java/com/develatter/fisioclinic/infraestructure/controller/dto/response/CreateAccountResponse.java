@@ -1,4 +1,4 @@
-package com.develatter.fisioclinic.infraestructure.controller.dto;
+package com.develatter.fisioclinic.infraestructure.controller.dto.response;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
