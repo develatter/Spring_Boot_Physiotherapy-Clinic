@@ -1,6 +1,8 @@
 package com.develatter.fisioclinic.infraestructure.persistence.account;
 
+import com.develatter.fisioclinic.infraestructure.persistence.patient.PatientEntity;
 import com.develatter.fisioclinic.infraestructure.persistence.role.RoleEntity;
+import com.develatter.fisioclinic.infraestructure.persistence.therapist.TherapistEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,7 +37,13 @@ public class AccountEntity {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    private TherapistEntity therapist;
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    private PatientEntity patient;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "account_role",
             joinColumns = @JoinColumn(name = "account_id"),

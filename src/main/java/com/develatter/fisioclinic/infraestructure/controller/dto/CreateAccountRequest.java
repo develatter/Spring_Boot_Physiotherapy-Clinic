@@ -14,9 +14,6 @@ public record CreateAccountRequest(
         String email,
 
         @NotBlank
-        String password,
-
-        @NotNull
-        Set<String> roles
+        String password
 ) {
 }

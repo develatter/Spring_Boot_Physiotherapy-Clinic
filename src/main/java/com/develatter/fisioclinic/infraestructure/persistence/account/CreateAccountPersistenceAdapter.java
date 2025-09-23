@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 
 
 @Repository
-public class CreateAccountRepositoryAdapter implements CreateAccountPort {
+public class CreateAccountPersistenceAdapter implements CreateAccountPort {
 
     private final SpringDataAccountRepository repository;
     private final SpringDataRoleRepository roleRepository;
 
-    public CreateAccountRepositoryAdapter(SpringDataAccountRepository repository, SpringDataRoleRepository roleRepository) {
+    public CreateAccountPersistenceAdapter(SpringDataAccountRepository repository, SpringDataRoleRepository roleRepository) {
         this.repository = repository;
         this.roleRepository = roleRepository;
     }
