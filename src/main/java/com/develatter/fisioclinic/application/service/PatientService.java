@@ -4,6 +4,8 @@ import com.develatter.fisioclinic.application.port.in.patient.GetPatientUseCase;
 import com.develatter.fisioclinic.application.port.in.patient.ListPatientsUseCase;
 import com.develatter.fisioclinic.application.port.out.read.LoadAllPatientsPort;
 import com.develatter.fisioclinic.application.port.out.read.LoadPatientPort;
+import com.develatter.fisioclinic.domain.exception.ErrorType;
+import com.develatter.fisioclinic.domain.exception.PatientNotFoundException;
 import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.infraestructure.controller.dto.response.PatientResponse;
 import org.springframework.stereotype.Service;
@@ -26,37 +28,22 @@ public class PatientService implements GetPatientUseCase, ListPatientsUseCase {
 
     @Override
     public PatientResponse getPatientById(UUID patientId) {
-        var patient = loadPatientPort.findById(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
-        return new PatientResponse(
-                patient.account().email(),
-                patient.firstName(),
-                patient.lastName(),
-                patient.birthDate(),
-                patient.phoneNumber(),
-                patient.address(),
-                patient.account().createdAt(),
-                patient.account().enabled(),
-                Set.of(Role.PATIENT)
-        );
-
+        return loadPatientPort.findById(patientId)
+                .map(this::toResponse)
+                .orElseThrow(() -> new PatientNotFoundException(
+                        ErrorType.ID,
+                        patientId.toString())
+                );
     }
 
     @Override
     public PatientResponse getPatientByAccountId(UUID accountId) {
-        var patient = loadPatientPort.findByAccountId(accountId)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
-        return new PatientResponse(
-                patient.account().email(),
-                patient.firstName(),
-                patient.lastName(),
-                patient.birthDate(),
-                patient.phoneNumber(),
-                patient.address(),
-                patient.account().createdAt(),
-                patient.account().enabled(),
-                Set.of(Role.PATIENT)
-        );
+        return loadPatientPort.findByAccountId(accountId)
+                .map(this::toResponse)
+                .orElseThrow(() -> new PatientNotFoundException(
+                        ErrorType.ACCOUNT_ID,
+                        accountId.toString())
+                );
     }
 
     @Override
@@ -65,16 +52,20 @@ public class PatientService implements GetPatientUseCase, ListPatientsUseCase {
         return (patients == null || patients.isEmpty()) ?
                 List.of()
                 :
-                patients.stream().map(patient -> new PatientResponse(
-                        patient.account().email(),
-                        patient.firstName(),
-                        patient.lastName(),
-                        patient.birthDate(),
-                        patient.phoneNumber(),
-                        patient.address(),
-                        patient.account().createdAt(),
-                        patient.account().enabled(),
-                        Set.of(Role.PATIENT)
-                )).toList();
+                patients.stream().map(this::toResponse).toList();
+    }
+
+    private PatientResponse toResponse(com.develatter.fisioclinic.domain.model.Patient patient) {
+        return new PatientResponse(
+                patient.account().email(),
+                patient.firstName(),
+                patient.lastName(),
+                patient.birthDate(),
+                patient.phoneNumber(),
+                patient.address(),
+                patient.account().createdAt(),
+                patient.account().enabled(),
+                Set.of(Role.PATIENT)
+        );
     }
 }

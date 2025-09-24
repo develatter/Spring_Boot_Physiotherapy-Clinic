@@ -19,7 +19,7 @@ public class TherapistEntity {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "account_id", nullable = false, unique = true)
     private AccountEntity account;
 

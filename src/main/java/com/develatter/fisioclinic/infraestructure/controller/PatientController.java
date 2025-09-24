@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/patient")
 public class PatientController {
 
     private final PatientService patientService;
@@ -21,7 +21,7 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @GetMapping("/patient-id/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<PatientResponse> getPatientById(@PathVariable UUID id) {
         return ResponseEntity.ok(patientService.getPatientById(id));
     }
