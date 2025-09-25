@@ -5,6 +5,7 @@ import com.develatter.fisioclinic.domain.exception.TherapistNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -16,5 +17,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TherapistNotFoundException.class)
     public ResponseEntity<String> handleTherapistNotFoundException(TherapistNotFoundException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> handleTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        return ResponseEntity.status(400).body("Bad request: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(500).body("Internal server error: " + ex.getMessage());
     }
 }

@@ -12,4 +12,10 @@ public record Account(
         OffsetDateTime createdAt,
         OffsetDateTime updatedAt,
         Set<Role> roles
-) {}
+) {
+    public Account {
+        if (roles == null || roles.isEmpty()) {
+            throw new IllegalArgumentException("Account must have at least one role");
+        }
+    }
+}

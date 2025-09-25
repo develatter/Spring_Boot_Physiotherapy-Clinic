@@ -6,12 +6,10 @@ import com.develatter.fisioclinic.application.port.out.read.LoadAllPatientsPort;
 import com.develatter.fisioclinic.application.port.out.read.LoadPatientPort;
 import com.develatter.fisioclinic.domain.exception.ErrorType;
 import com.develatter.fisioclinic.domain.exception.PatientNotFoundException;
-import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.infraestructure.controller.dto.response.PatientResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -65,7 +63,7 @@ public class PatientService implements GetPatientUseCase, ListPatientsUseCase {
                 patient.address(),
                 patient.account().createdAt(),
                 patient.account().enabled(),
-                Set.of(Role.PATIENT)
+                patient.account().roles()
         );
     }
 }
