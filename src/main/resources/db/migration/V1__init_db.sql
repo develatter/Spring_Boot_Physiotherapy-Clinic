@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS patient
 CREATE TABLE IF NOT EXISTS service
 (
     id                     uuid PRIMARY KEY,
-    name                   varchar(255) NOT NULL,
+    name                   varchar(255) UNIQUE NOT NULL,
     duration_min           integer      NOT NULL,
     buffer_time_before_min integer      NOT NULL,
     buffer_time_after_min  integer      NOT NULL,

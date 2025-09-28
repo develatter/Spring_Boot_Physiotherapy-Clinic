@@ -7,7 +7,10 @@ import com.develatter.fisioclinic.application.port.out.read.LoadTherapistPort;
 import com.develatter.fisioclinic.domain.exception.ErrorType;
 import com.develatter.fisioclinic.domain.exception.TherapistNotFoundException;
 import com.develatter.fisioclinic.domain.model.Role;
+import com.develatter.fisioclinic.domain.model.Therapist;
 import com.develatter.fisioclinic.infraestructure.controller.dto.response.TherapistResponse;
+import com.develatter.fisioclinic.infraestructure.controller.dto.response.RoleResponse;
+import com.develatter.fisioclinic.infraestructure.controller.dto.response.ServiceResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,7 +56,7 @@ public class TherapistService implements GetTherapistUseCase, ListTherapistsUseC
                         .toList();
     }
 
-    private TherapistResponse toResponse(com.develatter.fisioclinic.domain.model.Therapist therapist) {
+    private TherapistResponse toResponse(Therapist therapist) {
         return new TherapistResponse(
                 therapist.licenseNumber(),
                 therapist.firstName(),
@@ -62,7 +65,30 @@ public class TherapistService implements GetTherapistUseCase, ListTherapistsUseC
                 therapist.account().createdAt(),
                 therapist.active(),
                 therapist.account().enabled(),
-                Set.of(Role.THERAPIST)
+                mapRolesToRoleResponses(therapist.account().roles()),
+                mapServicesToServiceResponses(therapist.services())
         );
+    }
+
+    private Set<RoleResponse> mapRolesToRoleResponses(Set<Role> roles) {
+        if (roles == null) return Set.of();
+        return roles.stream()
+                .map(role -> new RoleResponse(role.name(), role.name())) // Personaliza la descripción si lo deseas
+                .collect(java.util.stream.Collectors.toSet());
+    }
+
+    private Set<ServiceResponse> mapServicesToServiceResponses(Set<com.develatter.fisioclinic.domain.model.Service> services) {
+        if (services == null) return Set.of();
+        return services.stream()
+                .map(s -> new ServiceResponse(
+                        s.name(),
+                        s.durationInMinutes(),
+                        s.bufferTimeBeforeInMinutes(),
+                        s.bufferTimeAfterInMinutes(),
+                        s.priceInCents(),
+                        s.description(),
+                        s.active()
+                ))
+                .collect(java.util.stream.Collectors.toSet());
     }
 }

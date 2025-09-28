@@ -10,10 +10,10 @@ import com.develatter.fisioclinic.domain.model.Account;
 import com.develatter.fisioclinic.domain.model.Patient;
 import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.domain.model.Therapist;
-import com.develatter.fisioclinic.infraestructure.controller.dto.response.CreateAccountResponse;
-import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreateAdminAccountRequest;
-import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreatePatientAccountRequest;
-import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreateTherapistAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.response.AccountResponse;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.AdminAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.PatientAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.TherapistAccountRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +36,7 @@ public class AccountService implements  CreateAdminAccountUseCase, CreatePatient
 
     @Transactional
     @Override
-    public CreateAccountResponse createAdminAccount(CreateAdminAccountRequest request) {
+    public AccountResponse createAdminAccount(AdminAccountRequest request) {
         Account account = new Account(
                 null,
                 request.email(),
@@ -47,7 +47,7 @@ public class AccountService implements  CreateAdminAccountUseCase, CreatePatient
                 Set.of(Role.ADMIN)
         );
         Account saved = createAccountPort.save(account);
-        return new CreateAccountResponse(
+        return new AccountResponse(
                 saved.id(),
                 saved.email(),
                 saved.enabled(),
@@ -58,7 +58,7 @@ public class AccountService implements  CreateAdminAccountUseCase, CreatePatient
 
     @Transactional
     @Override
-    public CreateAccountResponse createPatientAccount(CreatePatientAccountRequest request) {
+    public AccountResponse createPatientAccount(PatientAccountRequest request) {
         Account account = new Account(
                 null,
                 request.email(),
@@ -79,7 +79,7 @@ public class AccountService implements  CreateAdminAccountUseCase, CreatePatient
                 request.address()
         );
         createPatientPort.save(patient);
-        return new CreateAccountResponse(
+        return new AccountResponse(
                 savedAccount.id(),
                 savedAccount.email(),
                 savedAccount.enabled(),
@@ -90,7 +90,7 @@ public class AccountService implements  CreateAdminAccountUseCase, CreatePatient
 
     @Transactional
     @Override
-    public CreateAccountResponse createTherapistAccount(CreateTherapistAccountRequest request) {
+    public AccountResponse createTherapistAccount(TherapistAccountRequest request) {
         Account account = new Account(
                 null,
                 request.email(),
@@ -101,16 +101,33 @@ public class AccountService implements  CreateAdminAccountUseCase, CreatePatient
                 Set.of(Role.THERAPIST)
         );
         Account savedAccount = createAccountPort.save(account);
+        var services =
+                request.services().stream()
+                .map(
+                        s -> new com.develatter.fisioclinic.domain.model.Service(
+                                null,
+                                s.name(),
+                                s.durationInMinutes(),
+                                s.bufferTimeBeforeInMinutes(),
+                                s.bufferTimeAfterInMinutes(),
+                                s.priceInCents(),
+                                s.description(),
+                                s.active()
+                        )
+                )
+                .collect(Collectors.toSet());
         Therapist therapist = new Therapist(
                 null,
                 savedAccount,
                 request.licenseNumber(),
                 request.firstName(),
                 request.lastName(),
-                true
+                true,
+                services
         );
+
         createTherapistPort.save(therapist);
-        return new CreateAccountResponse(
+        return new AccountResponse(
                 savedAccount.id(),
                 savedAccount.email(),
                 savedAccount.enabled(),

@@ -1,7 +1,9 @@
 package com.develatter.fisioclinic.infraestructure.config;
 
 import com.develatter.fisioclinic.domain.exception.PatientNotFoundException;
+import com.develatter.fisioclinic.domain.exception.ServiceNotFoundException;
 import com.develatter.fisioclinic.domain.exception.TherapistNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,5 +29,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(500).body("Internal server error: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(ServiceNotFoundException.class)
+    public ResponseEntity<String> handleServiceNotFoundException(ServiceNotFoundException ex) {
+        return ResponseEntity.status(404).body("Service not found: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        return ResponseEntity.status(400).body("Data integrity violation: " + ex.getMessage());
     }
 }

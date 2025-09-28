@@ -1,6 +1,5 @@
 package com.develatter.fisioclinic.infraestructure.controller.dto.response;
 
-import com.develatter.fisioclinic.domain.model.Role;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -15,5 +14,5 @@ public record PatientResponse(
         String address,
         OffsetDateTime createdAt,
         boolean enabled,
-        Set<Role> role
+        Set<RoleResponse> role
 ) {}

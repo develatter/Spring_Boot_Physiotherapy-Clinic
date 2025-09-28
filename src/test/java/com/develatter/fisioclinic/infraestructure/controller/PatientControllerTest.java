@@ -3,8 +3,8 @@ package com.develatter.fisioclinic.infraestructure.controller;
 import com.develatter.fisioclinic.application.service.PatientService;
 import com.develatter.fisioclinic.domain.exception.ErrorType;
 import com.develatter.fisioclinic.domain.exception.PatientNotFoundException;
-import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.infraestructure.controller.dto.response.PatientResponse;
+import com.develatter.fisioclinic.infraestructure.controller.dto.response.RoleResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ class PatientControllerTest {
             "Calle Falsa 123",
             OffsetDateTime.now(),
             true,
-            Set.of(Role.PATIENT)
+            Set.of(new RoleResponse("PATIENT", "PATIENT"))
         );
         Mockito.when(patientService.getPatientById(patientId)).thenReturn(response);
 
@@ -89,7 +89,7 @@ class PatientControllerTest {
             "Av. Siempre Viva 742",
             OffsetDateTime.now(),
             true,
-            Set.of(Role.PATIENT)
+            Set.of(new RoleResponse("PATIENT", "PATIENT"))
         );
         Mockito.when(patientService.getPatientByAccountId(accountId)).thenReturn(response);
 
@@ -124,7 +124,7 @@ class PatientControllerTest {
             "Calle 1",
             OffsetDateTime.now(),
             true,
-            Set.of(Role.PATIENT)
+            Set.of(new RoleResponse("PATIENT", "PATIENT"))
         );
         PatientResponse p2 = new PatientResponse(
             "b@b.com",
@@ -135,7 +135,7 @@ class PatientControllerTest {
             "Calle 2",
             OffsetDateTime.now(),
             true,
-            Set.of(Role.PATIENT)
+            Set.of(new RoleResponse("PATIENT", "PATIENT"))
         );
         Mockito.when(patientService.getAllPatients()).thenReturn(List.of(p1, p2));
 

@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-public record CreateAccountResponse(
+public record AccountResponse(
         UUID id,
         String email,
         boolean enabled,

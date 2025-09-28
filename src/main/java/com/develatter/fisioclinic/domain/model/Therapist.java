@@ -1,5 +1,6 @@
 package com.develatter.fisioclinic.domain.model;
 
+import java.util.Set;
 import java.util.UUID;
 
 public record Therapist(
@@ -8,6 +9,7 @@ public record Therapist(
         String licenseNumber,
         String firstName,
         String lastName,
-        boolean active
+        boolean active,
+        Set<Service> services
 ) {
 }

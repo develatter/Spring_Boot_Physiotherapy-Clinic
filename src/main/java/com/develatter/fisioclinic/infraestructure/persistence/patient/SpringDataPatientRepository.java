@@ -1,7 +1,5 @@
 package com.develatter.fisioclinic.infraestructure.persistence.patient;
 
-import com.develatter.fisioclinic.domain.model.Patient;
-import com.develatter.fisioclinic.infraestructure.persistence.account.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

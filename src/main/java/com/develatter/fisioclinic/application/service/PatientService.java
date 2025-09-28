@@ -6,10 +6,13 @@ import com.develatter.fisioclinic.application.port.out.read.LoadAllPatientsPort;
 import com.develatter.fisioclinic.application.port.out.read.LoadPatientPort;
 import com.develatter.fisioclinic.domain.exception.ErrorType;
 import com.develatter.fisioclinic.domain.exception.PatientNotFoundException;
+import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.infraestructure.controller.dto.response.PatientResponse;
+import com.develatter.fisioclinic.infraestructure.controller.dto.response.RoleResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -63,7 +66,14 @@ public class PatientService implements GetPatientUseCase, ListPatientsUseCase {
                 patient.address(),
                 patient.account().createdAt(),
                 patient.account().enabled(),
-                patient.account().roles()
+                mapRolesToRoleResponses(patient.account().roles())
         );
+    }
+
+    private Set<RoleResponse> mapRolesToRoleResponses(Set<Role> roles) {
+        if (roles == null) return Set.of();
+        return roles.stream()
+                .map(role -> new RoleResponse(role.name(), role.name())) // Puedes personalizar la descripción si lo deseas
+                .collect(java.util.stream.Collectors.toSet());
     }
 }

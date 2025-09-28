@@ -1,10 +1,10 @@
 package com.develatter.fisioclinic.infraestructure.controller;
 
 import com.develatter.fisioclinic.application.service.AccountService;
-import com.develatter.fisioclinic.infraestructure.controller.dto.response.CreateAccountResponse;
-import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreateAdminAccountRequest;
-import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreatePatientAccountRequest;
-import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreateTherapistAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.response.AccountResponse;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.AdminAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.PatientAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.TherapistAccountRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,26 +20,26 @@ public class AccountController {
 
 
     @PostMapping("/create-admin")
-    public ResponseEntity<CreateAccountResponse> createAdminAccount(
-            @Valid @RequestBody CreateAdminAccountRequest request
+    public ResponseEntity<AccountResponse> createAdminAccount(
+            @Valid @RequestBody AdminAccountRequest request
     ) {
-        CreateAccountResponse response = accountService.createAdminAccount(request);
+        AccountResponse response = accountService.createAdminAccount(request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/create-patient")
-    public ResponseEntity<CreateAccountResponse> createPatientAccount(
-            @Valid @RequestBody CreatePatientAccountRequest request
+    public ResponseEntity<AccountResponse> createPatientAccount(
+            @Valid @RequestBody PatientAccountRequest request
     ) {
-        CreateAccountResponse response = accountService.createPatientAccount(request);
+        AccountResponse response = accountService.createPatientAccount(request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/create-therapist")
-    public ResponseEntity<CreateAccountResponse> createTherapistAccount(
-            @Valid @RequestBody CreateTherapistAccountRequest request
+    public ResponseEntity<AccountResponse> createTherapistAccount(
+            @Valid @RequestBody TherapistAccountRequest request
     ) {
-        CreateAccountResponse response = accountService.createTherapistAccount(request);
+        AccountResponse response = accountService.createTherapistAccount(request);
         return ResponseEntity.ok(response);
     }
 

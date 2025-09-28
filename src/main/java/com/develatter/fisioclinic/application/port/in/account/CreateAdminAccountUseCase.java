@@ -1,9 +1,9 @@
 package com.develatter.fisioclinic.application.port.in.account;
 
-import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreateAdminAccountRequest;
-import com.develatter.fisioclinic.infraestructure.controller.dto.response.CreateAccountResponse;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.AdminAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.response.AccountResponse;
 
 public interface CreateAdminAccountUseCase {
-    CreateAccountResponse createAdminAccount(CreateAdminAccountRequest request);
+    AccountResponse createAdminAccount(AdminAccountRequest request);
 }
 

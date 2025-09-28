@@ -7,15 +7,14 @@ import com.develatter.fisioclinic.domain.model.Patient;
 import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.infraestructure.persistence.account.AccountEntity;
 import com.develatter.fisioclinic.domain.model.Account;
-import jakarta.persistence.EntityManagerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-@Component
+@Repository
 public class PatientPersistenceAdapter implements CreatePatientPort, LoadPatientPort, LoadAllPatientsPort {
     private final SpringDataPatientRepository patientRepository;
 

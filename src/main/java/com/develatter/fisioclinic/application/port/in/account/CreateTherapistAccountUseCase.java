@@ -1,9 +1,9 @@
 package com.develatter.fisioclinic.application.port.in.account;
 
-import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreateTherapistAccountRequest;
-import com.develatter.fisioclinic.infraestructure.controller.dto.response.CreateAccountResponse;
+import com.develatter.fisioclinic.infraestructure.controller.dto.request.TherapistAccountRequest;
+import com.develatter.fisioclinic.infraestructure.controller.dto.response.AccountResponse;
 
 public interface CreateTherapistAccountUseCase {
-    CreateAccountResponse createTherapistAccount(CreateTherapistAccountRequest request);
+    AccountResponse createTherapistAccount(TherapistAccountRequest request);
 }
 

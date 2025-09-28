@@ -50,22 +50,23 @@ class PatientServiceTest {
                 patientId,
                 account,
                 "Juan",
-                "Perez",
-                LocalDate.of(1990,1,1),
+                "Pérez",
+                LocalDate.of(1990, 1, 1),
                 "123456789",
                 "Calle Falsa 123"
         );
         when(loadPatientPort.findById(patientId)).thenReturn(Optional.of(patient));
 
         PatientResponse response = patientService.getPatientById(patientId);
-        assertEquals("Juan", response.firstName());
-        assertEquals("Perez", response.lastName());
         assertEquals("juan@correo.com", response.email());
-        assertEquals(LocalDate.of(1990,1,1), response.birthDate());
+        assertEquals("Juan", response.firstName());
+        assertEquals("Pérez", response.lastName());
+        assertEquals(LocalDate.of(1990, 1, 1), response.birthDate());
         assertEquals("123456789", response.phoneNumber());
         assertEquals("Calle Falsa 123", response.address());
         assertTrue(response.enabled());
-        assertTrue(response.role().contains(Role.PATIENT));
+        assertNotNull(response.role());
+        assertTrue(response.role().stream().anyMatch(r -> r.code().equals("PATIENT")));
         assertEquals(now, response.createdAt());
     }
 
@@ -107,7 +108,7 @@ class PatientServiceTest {
         assertEquals("987654321", response.phoneNumber());
         assertEquals("Av. Siempre Viva 742", response.address());
         assertTrue(response.enabled());
-        assertTrue(response.role().contains(Role.PATIENT));
+        assertTrue(response.role().stream().anyMatch(r -> r.code().equals("PATIENT")));
         assertEquals(now, response.createdAt());
     }
 
@@ -237,14 +238,14 @@ class PatientServiceTest {
         assertNull(result.getFirst().birthDate());
         assertNull(result.getFirst().phoneNumber());
         assertNull(result.getFirst().address());
-        assertTrue(result.getFirst().role().contains(Role.PATIENT));
+        assertTrue(result.getFirst().role().stream().anyMatch(r -> r.code().equals("PATIENT")));
 
         assertNull(result.get(1).firstName());
         assertNull(result.get(1).email());
         assertNull(result.get(1).birthDate());
         assertNull(result.get(1).phoneNumber());
         assertNull(result.get(1).address());
-        assertTrue(result.get(1).role().contains(Role.PATIENT));
+        assertTrue(result.get(1).role().stream().anyMatch(r -> r.code().equals("PATIENT")));
     }
 
     @Test

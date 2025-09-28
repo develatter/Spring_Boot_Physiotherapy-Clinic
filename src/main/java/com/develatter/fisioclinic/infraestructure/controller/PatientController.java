@@ -1,11 +1,8 @@
 package com.develatter.fisioclinic.infraestructure.controller;
 
 import com.develatter.fisioclinic.application.service.PatientService;
-import com.develatter.fisioclinic.infraestructure.controller.dto.request.CreatePatientAccountRequest;
 import com.develatter.fisioclinic.infraestructure.controller.dto.response.PatientResponse;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

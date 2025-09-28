@@ -7,14 +7,16 @@ import com.develatter.fisioclinic.domain.model.Role;
 import com.develatter.fisioclinic.domain.model.Therapist;
 import com.develatter.fisioclinic.infraestructure.persistence.account.AccountEntity;
 import com.develatter.fisioclinic.domain.model.Account;
-import org.springframework.stereotype.Component;
+import com.develatter.fisioclinic.infraestructure.persistence.services.ServiceEntity;
+import com.develatter.fisioclinic.domain.model.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-@Component
+@Repository
 public class TherapistPersistenceAdapter implements CreateTherapistPort, LoadTherapistPort, LoadAllTherapistsPort {
     private final SpringDataTherapistRepository therapistRepository;
 
@@ -64,6 +66,9 @@ public class TherapistPersistenceAdapter implements CreateTherapistPort, LoadThe
     }
 
     private Therapist toDomain(TherapistEntity entity) {
+        Set<Service> services = entity.getServices() != null ?
+            entity.getServices().stream().map(this::toDomainService).collect(java.util.stream.Collectors.toSet()) :
+            java.util.Collections.emptySet();
         return new Therapist(
                 entity.getId(),
                 new Account(
@@ -74,11 +79,25 @@ public class TherapistPersistenceAdapter implements CreateTherapistPort, LoadThe
                         entity.getAccount().getCreatedAt(),
                         entity.getAccount().getUpdatedAt(),
                         Set.of(Role.THERAPIST)
-                ),entity.getLicenseNumber(),
+                ),
+                entity.getLicenseNumber(),
                 entity.getFirstName(),
                 entity.getLastName(),
+                entity.isActive(),
+                services
+        );
+    }
+
+    private Service toDomainService(ServiceEntity entity) {
+        return new Service(
+                entity.getId(),
+                entity.getName(),
+                entity.getDurationInMinutes(),
+                entity.getBufferTimeBeforeInMinutes(),
+                entity.getBufferTimeAfterInMinutes(),
+                entity.getPriceInCents(),
+                entity.getDescription(),
                 entity.isActive()
         );
     }
 }
-
