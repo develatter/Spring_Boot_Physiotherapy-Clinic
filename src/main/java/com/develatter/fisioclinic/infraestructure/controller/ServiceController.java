@@ -4,6 +4,7 @@ import com.develatter.fisioclinic.application.service.ServiceService;
 import com.develatter.fisioclinic.infraestructure.controller.dto.request.ServiceRequest;
 import com.develatter.fisioclinic.infraestructure.controller.dto.response.ServiceResponse;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,12 @@ public class ServiceController {
         return ResponseEntity.ok(
                 service.createService(request)
         );
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleIllegalArgumentException(IllegalArgumentException ex) {
+        return "Invalid UUID: " + ex.getMessage();
     }
 
 }
