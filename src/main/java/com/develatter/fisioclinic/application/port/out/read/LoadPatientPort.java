@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface LoadPatientPort {
-    boolean existsById(UUID patientId);
     Optional<Patient> findById(UUID patientId);
     Optional<Patient> findByAccountId(UUID accountId);
 }

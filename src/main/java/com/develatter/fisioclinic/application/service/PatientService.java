@@ -56,7 +56,7 @@ public class PatientService implements GetPatientUseCase, ListPatientsUseCase {
                 patients.stream().map(this::toResponse).toList();
     }
 
-    private PatientResponse toResponse(com.develatter.fisioclinic.domain.model.Patient patient) {
+    public PatientResponse toResponse(com.develatter.fisioclinic.domain.model.Patient patient) {
         return new PatientResponse(
                 patient.account().email(),
                 patient.firstName(),
@@ -70,10 +70,10 @@ public class PatientService implements GetPatientUseCase, ListPatientsUseCase {
         );
     }
 
-    private Set<RoleResponse> mapRolesToRoleResponses(Set<Role> roles) {
+    public Set<RoleResponse> mapRolesToRoleResponses(Set<Role> roles) {
         if (roles == null) return Set.of();
         return roles.stream()
-                .map(role -> new RoleResponse(role.name(), role.name())) // Puedes personalizar la descripción si lo deseas
+                .map(role -> new RoleResponse(role.toString(), role.name()))
                 .collect(java.util.stream.Collectors.toSet());
     }
 }

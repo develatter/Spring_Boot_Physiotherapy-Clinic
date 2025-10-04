@@ -131,7 +131,7 @@ public class AccountService implements  CreateAdminAccountUseCase, CreatePatient
                 savedAccount.id(),
                 savedAccount.email(),
                 savedAccount.enabled(),
-                savedAccount.roles().stream().map(Role::name).collect(Collectors.toSet()),
+                savedAccount.roles().stream().map(Role::getRole).collect(Collectors.toSet()),
                 savedAccount.createdAt()
         );
     }

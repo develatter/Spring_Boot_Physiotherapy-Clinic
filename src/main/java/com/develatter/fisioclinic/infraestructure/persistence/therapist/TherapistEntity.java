@@ -1,10 +1,12 @@
 package com.develatter.fisioclinic.infraestructure.persistence.therapist;
 
 import com.develatter.fisioclinic.infraestructure.persistence.account.AccountEntity;
+import com.develatter.fisioclinic.infraestructure.persistence.availability_rule.AvailabilityRuleEntity;
 import com.develatter.fisioclinic.infraestructure.persistence.services.ServiceEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -43,4 +45,6 @@ public class TherapistEntity {
     )
     private Set<ServiceEntity> services;
 
+    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AvailabilityRuleEntity> availabilityRules;
 }

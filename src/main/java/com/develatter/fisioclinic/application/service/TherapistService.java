@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TherapistService implements GetTherapistUseCase, ListTherapistsUseCase {
@@ -73,8 +74,8 @@ public class TherapistService implements GetTherapistUseCase, ListTherapistsUseC
     private Set<RoleResponse> mapRolesToRoleResponses(Set<Role> roles) {
         if (roles == null) return Set.of();
         return roles.stream()
-                .map(role -> new RoleResponse(role.name(), role.name())) // Personaliza la descripción si lo deseas
-                .collect(java.util.stream.Collectors.toSet());
+                .map(role -> new RoleResponse(role.toString(), role.name())) // Personaliza la descripción si lo deseas
+                .collect(Collectors.toSet());
     }
 
     private Set<ServiceResponse> mapServicesToServiceResponses(Set<com.develatter.fisioclinic.domain.model.Service> services) {
@@ -89,6 +90,6 @@ public class TherapistService implements GetTherapistUseCase, ListTherapistsUseC
                         s.description(),
                         s.active()
                 ))
-                .collect(java.util.stream.Collectors.toSet());
+                .collect(Collectors.toSet());
     }
 }
